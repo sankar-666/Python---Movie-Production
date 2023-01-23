@@ -1,11 +1,16 @@
 {% include 'staffheader.html' %}
+<style>
+    table,tr,th,td,h3,h1,h2{
+        color: black !important;
+    }
+    </style>
     <center>
         <br><br><br><br><br>
         {% if data['changeval'] %}
 
         
         <form action="" method="post" style="background: url('/static/assets/img/post3.jpg');background-size: cover;padding: 40px 10px;height: 60vh;padding-top: 30px;">
-            <h3 class="text-white">Update Details</h3>
+            <h3 >Update Details</h3>
             <table class="text-white">
                 <tr>
                     <th>First Name</th>
@@ -38,7 +43,7 @@
         {% else %}
         
         <form action="" method="post" style="background: url('/static/assets/img/post3.jpg');background-size: cover;padding: 40px 10px;height: 60vh;padding-top: 30px;">
-            <h3 class="text-white">Add Crew Details</h3>
+            <h3 >Add Crew Details</h3>
             <table class="text-white">
                 <tr>
                     <th>First Name</th>

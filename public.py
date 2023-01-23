@@ -4,14 +4,8 @@ from database import *
 
 public=Blueprint('public',__name__)
 
-@public.route('/')
+@public.route('/',methods=['post','get'])
 def home():
-    return render_template('home.html')
-
-
-@public.route('/login',methods=['post','get'])
-def login():
-
     if 'btn' in request.form:
         uname=request.form['uname']
         pasw =request.form['pasw']
@@ -35,13 +29,20 @@ def login():
                 q="select * from crew where login_id='%s'"%(session['loginid'])
                 cval=select(q)
                 if cval:
-                    session['cid']=val[0]['crew_id']
+                    session['cid']=cval[0]['crew_id']
                     return redirect(url_for("crew.crewhome"))
                
             
             else:
                 flash("failed try again")
-                return redirect(url_for("public.login"))
+                return redirect(url_for("home./"))
+    return render_template('home.html')
+
+
+@public.route('/login',methods=['post','get'])
+def login():
+
+    
 
 
     return render_template("login.html")

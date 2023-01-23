@@ -65,8 +65,8 @@ def staffmanagecrew():
     return render_template('staffmanagecrew.html',data=data)
 
 
-@staff.route("/adminviewfilimdetails",methods=['get','post'])
-def adminviewfilimdetails():
+@staff.route("/staffaddfilim",methods=['get','post'])
+def staffaddfilim():
     data={}
     if 'btn' in request.form:
         filim=request.form['filim']
@@ -76,7 +76,7 @@ def adminviewfilimdetails():
 
         q="insert into filim values (null,'%s','%s','%s','%s')"%(filim,details,desc,date)
         insert(q)
-        return redirect(url_for("staff.adminviewfilimdetails"))
+        return redirect(url_for("staff.staffaddfilim"))
 
 
     q="select * from filim"
@@ -98,13 +98,14 @@ def adminviewfilimdetails():
             desc=request.form['desc']
             date=request.form['date']
 
-            q="update filim set filim='%s', details='%s', desc='%s', date='%s' where filim_id='%s'"%(filim,details,desc,date,fid)
+            q="update filim set filim='%s', details='%s', `desc`='%s', `date`='%s' where filim_id='%s' "%(filim,details,desc,date,fid)
+            print(q)
             update(q)
-            return redirect(url_for("staff.adminviewfilimdetails"))
+            return redirect(url_for("staff.staffaddfilim"))
     if action=='delete':
         q="delete from filim where filim_id='%s'"%(fid)
         delete(q)
-        return redirect(url_for("staff.adminviewfilimdetails"))
+        return redirect(url_for("staff.staffaddfilim"))
     return render_template("staffaddfilim.html",data=data)
 
 
@@ -162,7 +163,9 @@ def staffassignworkstocrew():
         
     if action == "viewwork":
         q="select * from works where assigncrew_id='%s'"%(asigid)
+        data['viewsec']=True
         data['viewwrk']=select(q)
+        print(len(select(q)))
         data['count']=len(select(q))
 
     return render_template("staffassignworkstocrew.html",data=data)
@@ -172,7 +175,7 @@ def staffassignworkstocrew():
 @staff.route("/staffviewcrewrequirment",methods=['get','post'])
 def staffviewcrewrequirment():
     data={}
-    q="SELECT * FROM `requirment`,`assigncrew`,`crew` WHERE `requirment`.`assigncrew_id`=`assigncrew`.`assigncrew_id` AND `assigncrew`.`crew_id`=`crew`.`crew_id`"
+    q="SELECT *,requirment.status as status FROM `requirment`,`assigncrew`,`crew` WHERE `requirment`.`assigncrew_id`=`assigncrew`.`assigncrew_id` AND `assigncrew`.`crew_id`=`crew`.`crew_id`"
     data['res']=select(q)
 
     if 'action' in request.args:
@@ -199,6 +202,8 @@ def staffviewcrewrequirment():
             amount=request.form['amount']
             q="insert into payment values(null,'%s','%s',curdate())"%(aid,amount)
             insert(q)
+            q="update requirment set status='Payment Completed' where requirment_id='%s'"%(rid)
+            update(q)
             return redirect(url_for("staff.staffviewcrewrequirment"))
        
 

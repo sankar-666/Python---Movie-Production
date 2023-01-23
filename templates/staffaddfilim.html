@@ -1,6 +1,14 @@
 {% include 'staffheader.html' %}
 
 <center>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     {% if data['filim'] %}
     <h1>Update Filim</h1>
     <form action="" method="post">
@@ -56,13 +64,12 @@
 
     {% endif %}
     
-    
-</center>
+
 
 <br><br>
 
 <h2>View Filim</h2>
-<table>
+<table class="table" style="width: 1200px;">
     <tr>
         <th>Index</th>
         <th>Filim</th>
@@ -76,7 +83,7 @@
         <td>{{ loop.index }}</td>
         <td>{{ row['filim'] }}</td>
         <td>{{ row['details'] }}</td>
-        <td>{{ row['description'] }}</td>
+        <td>{{ row['desc'] }}</td>
         <td>{{ row['date'] }}</td>
         <td><a href="?action=update&fid={{ row['filim_id'] }}" class="btn btn-success">Update Filim</a></td>
         <td><a onclick="return confirm('Are you sure?')" href="?action=delete&fid={{ row['filim_id'] }}" class="btn btn-danger">Delete Filim</a></td>

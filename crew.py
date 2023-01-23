@@ -17,10 +17,10 @@ def crewviewfilimdetails():
     return render_template("crewviewfilimdetails.html",data=data)
 
 
-@crew.route("/crewviewassignedfilims")
+@crew.route("/crewviewassignedfilims",methods=['get','post'])
 def crewviewassignedfilims():
     data={}
-    q="select * from filim inner join assigcrew using (filim_id) where crew_id='%s'"%(session['cid'])
+    q="select * from filim inner join assigncrew using (filim_id) where crew_id='%s'"%(session['cid'])
     data['res']=select(q)
 
     if 'action' in request.args:
@@ -29,11 +29,13 @@ def crewviewassignedfilims():
     else:
         action=None
 
-    q="select * from requirment inner join assigncrew using (assigncrew_id) where crew_id='%s' and assigncrew_id='%s'"%(session['cid'],aid)
-    data['val']=select(q)
+  
     
     if action == "reqadd":
         data['reqadd']=True
+
+        q="select * from requirment inner join assigncrew using (assigncrew_id) where crew_id='%s' and assigncrew_id='%s'"%(session['cid'],aid)
+        data['val']=select(q)
         if 'btn' in request.form:
             req=request.form['req']
             q="insert into requirment values(null,'%s','%s',curdate(),'pending')"%(aid,req)
@@ -47,7 +49,7 @@ def crewviewassignedfilims():
 @crew.route("/crewviewassignedworks")
 def crewviewassignedworks():
     data={}
-    q="SELECT *,work.date as date FROM works INNER JOIN assigncrew USING (assigncrew_id) where crew_id='%s'"%(session['cid'])
+    q="SELECT *,works.date as date,works.status as status FROM works INNER JOIN assigncrew USING (assigncrew_id) where crew_id='%s'"%(session['cid'])
     data['res']=select(q)
 
     if 'action' in request.args:
@@ -58,7 +60,7 @@ def crewviewassignedworks():
 
     if action == "completed":
         q="update works set status='work completed' where work_id='%s' "%(wid)
-        insert(q)
+        update(q)
         return redirect(url_for("crew.crewviewassignedworks")) 
 
     return render_template("crewviewassignedworks.html",data=data)
@@ -67,6 +69,6 @@ def crewviewassignedworks():
 @crew.route("/crewviewpayments")
 def crewviewpayments():
     data={}
-    q="SELECT * FROM `crew`,`assigncrew`,`payment`,`filim` WHERE `crew`.`crew_id`=`assigncrew`.`crew_id` AND `assigncrew`.`assigncrew_id`=`payment`.`assigncrew_id`  AND  `assigncrew`.`filim_id`=`filim`.`filim_id` and crew_id='%s'"%(session['cid'])
+    q="SELECT * FROM `crew`,`assigncrew`,`payment`,`filim` WHERE `crew`.`crew_id`=`assigncrew`.`crew_id` AND `assigncrew`.`assigncrew_id`=`payment`.`assigncrew_id`  AND  `assigncrew`.`filim_id`=`filim`.`filim_id` and assigncrew.crew_id='%s'"%(session['cid'])
     data['res']=select(q)
     return render_template("crewviewpayments.html",data=data)

@@ -1,10 +1,10 @@
 {% include 'crewheader.html' %}
-<div style="width: 100%;height: 300px;background: url('/static/assets/img/portfolio/portfolio-4.jpg');background-size: cover;">
+<div style="width: 100%;height: 300px;background: url('/static/assets/img/netflix.jpg');background-size: cover;">
 
 </div>
 <center>
     {% if data['reqadd'] %}
-    <br><br><br><br>
+<br>
     <form action="" method="post">
         <table>
             <tr>
@@ -12,7 +12,7 @@
                 <td><input type="text" required class="form-control" name="req" id=""></td>
             </tr>
             <tr>
-                <input type="submit" name="btn" id="">
+                <td><input class="btn btn-success" type="submit" name="btn" id=""></td>
             </tr>
         </table>
     </form>
@@ -49,9 +49,9 @@
        <td>{{ loop.index }}</td>
        <td>{{ row['filim'] }}</td>
        <td>{{ row['details'] }}</td>
-       <td>{{ row['description'] }}</td>
+       <td>{{ row['desc'] }}</td>
        <td>{{ row['date'] }}</td>
-       <td><a href="?action=reqadd&aid={{ row['assigncrew_id'] }}">Add Requirments</a></td>
+       <td><a class="btn btn-danger" href="?action=reqadd&aid={{ row['assigncrew_id'] }}">Add Requirments</a></td>
    </tr>
        {% endfor %}
 </table>
