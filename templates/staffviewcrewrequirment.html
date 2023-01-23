@@ -1,0 +1,73 @@
+{% include 'staffheader.html' %}
+<div style="width: 100%;height: 300px;background: url('/static/assets/img/portfolio/portfolio-4.jpg');background-size: cover;">
+
+</div>
+<center>
+
+    {% if data['pay'] %}
+
+    <br>
+    <form action="" method="post">
+        <table>
+            <tr>
+                <th>Amount</th>
+                <td><input type="number" required name="amount" class="form-control" id=""></td>
+            </tr>
+            <tr>
+                <th>Account no</th>
+                <td><input type="number" pattern="\d{16}" required name="" class="form-control" id=""></td>
+            </tr>
+            <tr>
+                <th>Cvv</th>
+                <td><input type="password" pattern="\d{3}" required name="" class="form-control" id=""></td>
+            </tr>
+            <tr>
+                <th>Expiery date</th>
+                <td><input type="date" required name="" class="form-control" id=""></td>
+            </tr>
+            <tr>
+                <td><input type="submit" class="btn btn-success" name="btn" id=""></td>
+            </tr>
+        </table>
+    </form>
+
+    {% else %}
+
+    <h4>Crew Requirments</h4>
+
+    <table class="table" style="width: 1000px;">
+       <tr>
+           <th>index</th>
+           <th>Crew</th>
+           <th>Place</th>
+           <th>Phone</th>
+           <th>Email</th>
+           <th>Requirment</th>
+           <th>Date</th>
+       </tr>
+           {% for row in data['res'] %}
+       <tr>
+           <td>{{ loop.index }}</td>
+           <td>{{ row['fname'] }}{{ row['lname'] }}</td>
+           <td>{{ row['place'] }}</td>
+           <td>{{ row['phone'] }}</td>
+           <td>{{ row['email'] }}</td>
+           <td>{{ row['requirment'] }}</td>
+           <td>{{ row['date'] }}</td>
+           {% if row['status'] == 'pending' %}
+           <td><a class="btn btn-success" href="?approve&rid={{ row['requirment_id'] }}&aid={{ row['assigncrew_id'] }}">Approve</a></td>
+           <td><a class="btn btn-danger" href="?reject&rid={{ row['requirment_id'] }}&aid={{ row['assigncrew_id'] }}">Reject</a></td>
+           {% elif row['status'] == 'approved' %}
+           <td><a class="btn btn-primary" href="?payment&aid={{ row['assigncrew_id'] }}&rid={{ row['requirment_id'] }}">Make Payment</a></td>
+            {% else %}
+            <td>{{ row['status'] }}</td>
+            {% endif %}
+       </tr>
+           {% endfor %}
+    </table>
+
+    {% endif %}
+
+
+</center>
+{% include 'footer.html' %}

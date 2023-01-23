@@ -52,7 +52,7 @@ def adminmanagestaff():
             email=request.form['email']
           
 
-            q="update staff set fname='%s', lname='%s', place='%s', phone='%s', email='%s' where smaster_id='%s' "%(fname,lname,place,num,email,sid)
+            q="update staff set fname='%s', lname='%s', place='%s', phone='%s', email='%s' where staff_id='%s' "%(fname,lname,place,num,email,sid)
             update(q)
             return redirect(url_for("admin.adminmanagestaff"))
 

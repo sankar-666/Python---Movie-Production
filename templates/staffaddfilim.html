@@ -1,0 +1,90 @@
+{% include 'staffheader.html' %}
+
+<center>
+    {% if data['filim'] %}
+    <h1>Update Filim</h1>
+    <form action="" method="post">
+        <table>
+            <tr>
+                <th>Fimim</th>
+                <td><input type="text" value="{{ data['filim'][0]['filim'] }}" required class="form-control" name="filim" id=""></td>
+            </tr>
+            <tr>
+                <th>Details</th>
+                <td><input type="text" value="{{ data['filim'][0]['details'] }}" required class="form-control" name="details" id=""></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td><input type="text" value="{{ data['filim'][0]['desc'] }}" required class="form-control" name="desc" id=""></td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td><input type="date" value="{{ data['filim'][0]['date'] }}" required class="form-control" name="date" id=""></td>
+            </tr>
+            <tr>
+                <td><input type="submit" required class="btn btn-success" name="update" id=""></td>
+            </tr>
+        </table>
+    </form>
+
+    {% else %}
+    <h1>Manage Filim</h1>
+    <form action="" method="post">
+        <table>
+            <tr>
+                <th>Fimim</th>
+                <td><input type="text" required class="form-control" name="filim" id=""></td>
+            </tr>
+            <tr>
+                <th>Details</th>
+                <td><input type="text" required class="form-control" name="details" id=""></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td><input type="text" required class="form-control" name="desc" id=""></td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td><input type="date" required class="form-control" name="date" id=""></td>
+            </tr>
+            <tr>
+                <td><input type="submit" required class="btn btn-success" name="btn" id=""></td>
+            </tr>
+        </table>
+    </form>
+
+
+    {% endif %}
+    
+    
+</center>
+
+<br><br>
+
+<h2>View Filim</h2>
+<table>
+    <tr>
+        <th>Index</th>
+        <th>Filim</th>
+        <th>Details</th>
+        <th>description</th>
+        <th>Date</th>
+    </tr>
+
+    {% for row in data['res'] %}
+    <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ row['filim'] }}</td>
+        <td>{{ row['details'] }}</td>
+        <td>{{ row['description'] }}</td>
+        <td>{{ row['date'] }}</td>
+        <td><a href="?action=update&fid={{ row['filim_id'] }}" class="btn btn-success">Update Filim</a></td>
+        <td><a onclick="return confirm('Are you sure?')" href="?action=delete&fid={{ row['filim_id'] }}" class="btn btn-danger">Delete Filim</a></td>
+        <td><a class="btn btn-primary" href="staffaddcrewmembers?fid={{ row['filim_id'] }}&filim={{ row['filim'] }}">Add Crew members</a></td>
+    </tr>
+        {% endfor %}
+</table>
+
+
+
+{% include 'footer.html' %}

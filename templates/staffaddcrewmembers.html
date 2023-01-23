@@ -1,0 +1,52 @@
+{% include 'staffheader.html' %}
+<center>
+
+<h1>Add Crew members</h1>
+    <form action="" method="post">
+        <table>
+            <tr>
+                <th>Filim</th>
+                <td><input type="text" value="{{ filim }}" disabled class="form-control" name="" id=""></td>
+            </tr>
+            <tr>
+                <th>Select Crew Member</th>
+                <td><select name="cr_id" class="form-control" required id="">
+                    {% for row in data['res'] %}
+                        <option value="{{ row['crew_id'] }}">{{ row['fname'] }}{{ row['lname'] }}</option>
+                    {% endfor %}
+                </select></td>
+            </tr>
+            <tr>
+                <td><input type="submit" required class="btn btn-success" name="btn" id=""></td>
+            </tr>
+        </table>
+    </form>
+
+    <br><br>
+
+    
+<h4>Crew Details</h4>
+
+<table class="table" style="width: 1000px;">
+   <tr>
+       <th>index</th>
+       <th>Name</th>
+       <th>Place</th>
+       <th>Phone</th>
+       <th>Email</th>
+   </tr>
+       {% for row in data['crew'] %}
+   <tr>
+       <td>{{ loop.index }}</td>
+       <td>{{ row['fname'] }}{{ row['lname'] }}</td>
+       <td>{{ row['place'] }}</td>
+       <td>{{ row['phone'] }}</td>
+       <td>{{ row['email'] }}</td>
+       <td><a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="?action=delete&cid={{ row['crew_id'] }}&fid={{ fid }}&filim={{ filim }}">Delete Crew</a></td>
+   </tr>
+       {% endfor %}
+</table>
+
+
+
+{% include 'footer.html' %}
