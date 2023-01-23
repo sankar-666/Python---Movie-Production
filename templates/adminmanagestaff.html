@@ -1,0 +1,156 @@
+{% include 'adminheader.html' %}
+    <center>
+        <br><br><br><br><br>
+        {% if data['changeval'] %}
+
+        
+        <form action="" method="post" style="background: url('/static/assets/img/post3.jpg');background-size: cover;padding: 40px 10px;height: 60vh;padding-top: 30px;">
+            <h3 class="text-white">Update Details</h3>
+            <table class="text-white">
+                <tr>
+                    <th>First Name</th>
+                    <td><input type="text" class="form-control" value="{{ data['changeval'][0]['fname'] }}" required name="fname" id=""></td>
+                </tr>
+                <tr>
+                    <th>Last Name</th>
+                    <td><input type="text" class="form-control" value="{{ data['changeval'][0]['lname'] }}" required name="lname" id=""></td>
+                </tr>
+                <tr>
+                    <th>Place</th>
+                    <td><input type="text" class="form-control" value="{{ data['changeval'][0]['place'] }}" required name="place" id=""></td>
+                </tr>
+                <tr>
+                    <th>Phone</th>
+                    <td><input type="text" maxlength="10" class="form-control" value="{{ data['changeval'][0]['phone'] }}" required name="num" id=""></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td><input type="email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="form-control" value="{{ data['changeval'][0]['email'] }}" required name="email" id=""></td>
+                </tr>
+               
+                <tr>
+                    <td align="center" colspan="2"><input style="margin-top: 10px;" class="btn btn-success" type="submit" value="Update" name="update" id=""></td>
+                </tr>
+            </table>
+        </form>
+
+
+        {% else %}
+        
+        <form action="" method="post" style="background: url('/static/assets/img/post3.jpg');background-size: cover;padding: 40px 10px;height: 60vh;padding-top: 30px;">
+            <h3 class="text-white">Add Staff Details</h3>
+            <table class="text-white">
+                <tr>
+                    <th>First Name</th>
+                    <td><input type="text" class="form-control" required name="fname" id=""></td>
+                </tr>
+                <tr>
+                    <th>Last Name</th>
+                    <td><input type="text" class="form-control" required name="lname" id=""></td>
+                </tr>
+                <tr>
+                    <th>Place</th>
+                    <td><input type="text" class="form-control" required name="place" id=""></td>
+                </tr>
+                <tr>
+                    <th>Phone</th>
+                    <td><input type="text" maxlength="10" class="form-control" required name="num" id=""></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td><input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="form-control" required name="email" id=""></td>
+                </tr>
+                <tr>
+                    <th>Username</th>
+                    <td><input type="text" class="form-control" required name="uname" id=""></td>
+                </tr>
+                <tr>
+                    <th>Password *</th>
+                    <td><input type="password" class="form-control" required name="pasw" id=""></td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="2"><input style="margin-top: 10px;" type="submit" class="btn btn-success" value="Submit" name="add" id=""></td>
+                </tr>
+            </table>
+        </form>
+            {% endif %}
+            <br>
+             <h4>View added Staff's</h4>
+
+             <table class="table" style="width: 1000px;">
+                <tr>
+                    <th>index</th>
+                    <th>Name</th>
+                    <th>Place</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                </tr>
+                    {% for row in data['res'] %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ row['fname'] }}{{ row['lname'] }}</td>
+                    <td>{{ row['place'] }}</td>
+                    <td>{{ row['phone'] }}</td>
+                    <td>{{ row['email'] }}</td>
+                    <td><a class="btn btn-primary" href="?action=update&sid={{ row['staff_id'] }}&logid={{ row['login_id'] }}">Update</a></td>
+                    <td><a class="btn btn-danger" href="?action=delete&sid={{ row['staff_id'] }}&logid={{ row['login_id'] }}">Delete</a></td>
+                </tr>
+                    {% endfor %}
+             </table>
+
+
+             <script src="
+https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+    </script>
+<script>
+    $(function() {
+        $("input[name='fname']").on('input', function(e) {
+            $(this).val($(this).val().replace(/[^A-Za-z ]/g, ''));
+
+        });
+        $("input[name='lname']").on('input', function(e) {
+            $(this).val($(this).val().replace(/[^A-Za-z ]/g, ''));
+
+        });
+        // $("input[name='dob']").on('input', function(e) {
+        //     $(this).val($(this).val().replace(/[^0-9/]/g, ''));
+
+        // });
+        
+        $("input[name='num']").on('input', function(e) {
+        	$(this).val($(this).val().replace(/[^0-9]/g, ''));
+            
+        });
+        $("input[name='pincode']").on('input', function(e) {
+        	$(this).val($(this).val().replace(/[^0-9]/g, ''));
+            
+        });
+        $("input[name='email']").on('input', function(e) {
+              var re = /([A-Z0-9a-z_-][^@])+?@[^$#<>?]+?\.[\w]{1,}/.test(this.value);
+                if(!re) {
+                    $('#eerror').show();
+                } else {
+                    $('#eerror').hide();
+                }
+
+        });
+        $("input[name='address']").on('input', function(e) {
+            $(this).val($(this).val().replace(/[^A-Za-z0-9()/. ]/g, ''));
+
+        });
+        $("input[name='place']").on('input', function(e) {
+            $(this).val($(this).val().replace(/[^A-Za-z ]/g, ''));
+
+        });
+            
+        $("input[name='pwd']").on('input', function(e) {
+        	$(this).val($(this).val().replace(/[^0-9A-Za-z@/. ]/g, ''));
+            
+        });
+    });
+
+
+</script>
+     
+    </center>
+{% include 'footer.html' %}
